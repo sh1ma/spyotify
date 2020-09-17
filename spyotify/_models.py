@@ -1,47 +1,48 @@
-from dataclasses import dataclass
+from __future__ import annotations
+
 from typing import Dict, Generic, List, Optional, TypeVar, Union
 
+from pydantic import BaseModel
+from pydantic.generics import GenericModel
 
-@dataclass
-class Album:
+
+class Album(BaseModel):
     album_type: str
-    artists: List["ArtistSimplified"]
+    artists: List[ArtistSimplified]
     available_markets: List[str]
-    copyrights: List["Copyright"]
+    copyrights: List[Copyright]
     external_ids: Dict
     external_urls: Dict
     genres: List[str]
     href: str
     id: str
-    images: List["Image"]
+    images: List[Image]
     label: str
     name: str
     popularity: int
     release_date: str
     release_date_precision: str
     restrictions: Dict
-    tracks: "Paging"
+    tracks: Paging
     type: str
     uri: str
 
 
-@dataclass
-class AlbumSimplified:
+class AlbumSimplified(BaseModel):
     album_type: str
-    artists: List["ArtistSimplified"]
+    artists: List[ArtistSimplified]
     available_markets: List[str]
     external_urls: Dict
     href: str
     id: str
-    images: List["Image"]
+    images: List[Image]
     name: str
     type: str
     uri: str
     album_group: Optional[str] = None
 
 
-@dataclass
-class Artist:
+class Artist(BaseModel):
     external_urls: Dict
     followers: Dict
     genres: List[str]
@@ -54,8 +55,7 @@ class Artist:
     uri: str
 
 
-@dataclass
-class ArtistSimplified:
+class ArtistSimplified(BaseModel):
     external_urls: Dict
     href: str
     id: str
@@ -64,8 +64,7 @@ class ArtistSimplified:
     uri: str
 
 
-@dataclass
-class AudioFeatures:
+class AudioFeatures(BaseModel):
     acousticness: float
     analysis_url: str
     danceability: float
@@ -86,35 +85,30 @@ class AudioFeatures:
     valence: float
 
 
-@dataclass
-class Category:
+class Category(BaseModel):
     href: str
     icons: List
     id: str
     name: str
 
 
-@dataclass
-class Context:
+class Context(BaseModel):
     type: str
     href: str
     external_urls: Dict
     uri: str
 
 
-@dataclass
-class Copyright:
+class Copyright(BaseModel):
     text: str
     type: str
 
 
-@dataclass
-class Cursor:
+class Cursor(BaseModel):
     after: str
 
 
-@dataclass
-class Disallows:
+class Disallows(BaseModel):
     interrupting_playback: bool
     pausing: bool
     resuming: bool
@@ -127,90 +121,80 @@ class Disallows:
     transferring_playback: bool
 
 
-@dataclass
-class Error:
+class Error(BaseModel):
     status: int
     message: str
 
 
-@dataclass
-class PlayerError:
+class PlayerError(BaseModel):
     status: int
     message: str
     reason: str
 
 
-@dataclass
-class Followers:
+class Followers(BaseModel):
     href: str
     total: int
 
 
-@dataclass
-class Image:
+class Image(BaseModel):
     height: int
     url: str
     width: int
 
 
-@dataclass
-class PlayHistory:
-    track: "TrackSimplified"
+class PlayHistory(BaseModel):
+    track: TrackSimplified
     played_at: str  # datetime
-    context: "Context"
+    context: Context
 
 
-@dataclass
-class Playlist:
+class Playlist(BaseModel):
     collaborative: bool
     external_urls: Dict
-    followers: "Followers"
+    followers: Followers
     href: str
     id: str
-    images: List["Image"]
+    images: List[Image]
     name: str
-    owner: "User"
+    owner: User
     snapshot_id: str
-    tracks: "Paging"
+    tracks: Paging
     type: str
     uri: str
     description: Optional[str] = None
     public: Optional[bool] = None
 
 
-@dataclass
-class PlaylistSimplified:
+class PlaylistSimplified(BaseModel):
     collaborative: bool
     external_urls: Dict
     href: str
     id: str
-    images: List["Image"]
+    images: List[Image]
     name: str
-    owner: "User"
+    owner: User
     snapshot_id = str
-    tracks: "Paging"
+    tracks: Paging
     type: str
     uri: str
     description: Optional[str] = None
     public: Optional[bool] = None
 
 
-@dataclass
-class PlayListTrack:
+class PlayListTrack(BaseModel):
     is_local: bool
-    track: Union["Track", "Episode"]
+    track: Union[Track, Episode]
     added_at: Optional[str] = None  # datetime
-    added_by: Optional["User"] = None
+    added_by: Optional[User] = None
 
 
-@dataclass
-class Recommendations:
+class Recommendations(BaseModel):
     seeds: List
-    tracks: List["TrackSimplified"]
+    tracks: List[TrackSimplified]
 
 
-@dataclass
-class RecommendationsSeed:
+class RecommendationsSeed(BaseModel):
     afterFilteringSize: int
     afterRelinkingSize: int
     id: str
@@ -219,28 +203,24 @@ class RecommendationsSeed:
     href: Optional[str] = None
 
 
-@dataclass
-class SavedTrack:
+class SavedTrack(BaseModel):
     added_at: str  # datetime
-    track: "Track"
+    track: Track
 
 
-@dataclass
-class SavedAlbum:
+class SavedAlbum(BaseModel):
     added_at: str  # datetime
-    album: "Album"
+    album: Album
 
 
-@dataclass
-class SavedShow:
+class SavedShow(BaseModel):
     added_at: str  # datetime
-    album: "Show"
+    album: Show
 
 
-@dataclass
-class Track:
-    album: "AlbumSimplified"
-    artists: List["ArtistSimplified"]
+class Track(BaseModel):
+    album: AlbumSimplified
+    artists: List[ArtistSimplified]
     available_markets: List[str]
     disc_number: int
     duration_ms: int
@@ -250,7 +230,7 @@ class Track:
     href: str
     id: str
     is_playable: bool
-    linked_from: "LinkedTrack"
+    linked_from: TrackLink
     restrictions: Dict
     name: str
     popularity: int
@@ -261,9 +241,8 @@ class Track:
     is_local: bool
 
 
-@dataclass
-class TrackSimplified:
-    artists: List["ArtistSimplified"]
+class TrackSimplified(BaseModel):
+    artists: List[ArtistSimplified]
     available_markets: List[str]
     disc_number: int
     duration_ms: int
@@ -272,7 +251,7 @@ class TrackSimplified:
     href: str
     id: str
     is_playable: bool
-    linked_from: "LinkedTrack"
+    linked_from: TrackLink
     restrictions: str
     name: str
     preview_url: str
@@ -282,8 +261,7 @@ class TrackSimplified:
     is_local: bool
 
 
-@dataclass
-class TrackLink:
+class TrackLink(BaseModel):
     external_urls: Dict
     href: str
     id: str
@@ -291,15 +269,14 @@ class TrackLink:
     uri: str
 
 
-@dataclass
-class Episode:
+class Episode(BaseModel):
     description: str
     duration_ms: int
     explicit: bool
     external_urls: Dict
     href: str
     id: str
-    images: List["Image"]
+    images: List[Image]
     is_externally_hosted: bool
     is_playable: bool
     language: str
@@ -307,22 +284,21 @@ class Episode:
     name: str
     release_date: str
     release_date_precision: str
-    resume_point: "ResumePoint"
-    show: "ShowSimplified"
+    resume_point: ResumePoint
+    show: ShowSimplified
     type: str
     uri: str
     audio_preview_url: Optional[str] = None
 
 
-@dataclass
-class EpisodeSimplified:
+class EpisodeSimplified(BaseModel):
     description: str
     duration_ms: int
     explicit: bool
     external_urls: Dict
     href: str
     id: str
-    images: List["Image"]
+    images: List[Image]
     is_externally_hosted: bool
     is_playable: bool
     language: str
@@ -330,29 +306,27 @@ class EpisodeSimplified:
     name: str
     release_date: str
     release_date_precision: str
-    resume_point: "ResumePoint"
+    resume_point: ResumePoint
     type: str
     uri: str
     audio_preview_url: Optional[str] = None
 
 
-@dataclass
-class ResumePoint:
+class ResumePoint(BaseModel):
     fully_played: bool
     resume_position_ms: int
 
 
-@dataclass
-class Show:
+class Show(BaseModel):
     available_markets: List[str]
-    copyrights: List["Copyright"]
+    copyrights: List[Copyright]
     description: str
     explicit: bool
-    episodes: "Paging"
+    episodes: Paging
     external_urls: Dict
     href: str
     id: str
-    images: List["Image"]
+    images: List[Image]
     languages: List[str]
     media_type: str
     name: str
@@ -362,17 +336,16 @@ class Show:
     is_externally_hosted: Optional[bool] = None
 
 
-@dataclass
-class ShowSimplified:
+class ShowSimplified(BaseModel):
     available_markets: List[str]
-    copyrights: List["Copyright"]
+    copyrights: List[Copyright]
     description: str
     explicit: bool
-    episodes: "Paging"
+    episodes: Paging
     external_urls: Dict
     href: str
     id: str
-    images: List["Image"]
+    images: List[Image]
     languages: List[str]
     media_type: str
     name: str
@@ -382,25 +355,23 @@ class ShowSimplified:
     is_externally_hosted: Optional[bool] = None
 
 
-@dataclass
-class User:
+class User(BaseModel):
     external_urls: Dict
-    followers: "Followers"
+    followers: Followers
     href: str
     id: str
-    images: List["Image"]
+    images: List[Image]
     type: str
     uri: str
     display_name: Optional[str] = None
 
 
-Entity = Union[AlbumSimplified]
+T = TypeVar("T")  # pylint: disable=invalid-name
 
 
-@dataclass
-class Paging:
+class Paging(GenericModel, Generic[T]):
     href: str
-    items: List[Entity]
+    items: List[T]
     limit: int
     offset: int
     total: int
@@ -408,11 +379,13 @@ class Paging:
     next: Optional[str] = None
 
 
-@dataclass
-class CursorBasedPaging:
+class CursorBasedPaging(GenericModel, Generic[T]):
     href: str
-    items: List[Entity]
+    items: List[T]
     limit: int
     cusor: Dict
     total: int
     next: Optional[str] = None
+
+
+AlbumSimplified.update_forward_refs()
